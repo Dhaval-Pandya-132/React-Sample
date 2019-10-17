@@ -11,7 +11,7 @@ const ErrorValidationLabel = ({errorMessage}) => (
 
 export default ErrorValidationLabel;
 
-ErrorValidationLabel.propTyoes = {
+ErrorValidationLabel.propTypes = {
     errorMessage: PropTypes.string
 };
 

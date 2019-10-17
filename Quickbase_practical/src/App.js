@@ -21,7 +21,7 @@ export default class App extends Component {
                 errorMessage: "",
                 fieldName: "Label",
                 identifier: constants.FIELD_IDENTIFIER_LABEL,
-             //   required: true
+                required: true
             },
             defaultVal: {
                 value: "",
@@ -29,7 +29,7 @@ export default class App extends Component {
                 errorMessage: "",
                 fieldName: "Default Value",
                 identifier: constants.FIELD_IDENTIFIER_DEFAULT_VALUE,
-             //   required: true
+                required: true
             },
             typeVal: {
                 value: false,
@@ -37,7 +37,7 @@ export default class App extends Component {
                 errorMessage: "",
                 fieldName: "Type",
                 identifier: constants.FIELD_IDENTIFIER_TYPE,
-             //   required: true
+                required: true
             },
             choicesVal: {
                 value: "",
@@ -45,7 +45,7 @@ export default class App extends Component {
                 errorMessage: "",
                 fieldName: "Choices",
                 identifier: constants.FIELD_IDENTIFIER_CHOICE,
-             //   required: true
+                required: true
             },
             orderVal: {
                 value: "ASC",
@@ -53,10 +53,12 @@ export default class App extends Component {
                 errorMessage: "",
                 fieldName: "Order",
                 identifier: constants.FIELD_IDENTIFIER_ORDER,
-             //   required: true
+                required: true
             }
         };
     }
+
+// Create Event Handler for Each Components
 
     onChangeLabelVal = e => {
         // console.log("Object destruction" )
@@ -64,7 +66,7 @@ export default class App extends Component {
         const {labelVal} = {...this.state};
         labelVal.value = e.target.value;
         labelVal.valid = true;
-      //  console.log("Object destruction" )
+      //  console.log("Object destructuring" )
         console.log(labelVal);
 
         this.setState({
@@ -137,6 +139,9 @@ export default class App extends Component {
         });
     };
 
+
+ // Get The Choices List in array by spliting it by "\n"   
+
     getChoicesList = (choices_input, compareLowerCase) => {
         if (isEmpty(choices_input))
             return [];
@@ -147,6 +152,8 @@ export default class App extends Component {
             .map(val => compareLowerCase ? val.toLowerCase(): val);
     };
 
+
+    // Consturct JSON which is going to be submitted 
     getSubmitJSON = () => {
         const result = {};
 
@@ -161,18 +168,22 @@ export default class App extends Component {
         return result;
     };
 
+
+    // Define the common method to reset the state of valid and ErrorMessage 
     resetPropObject = (prop_object) => {
         prop_object.valid = true;
         prop_object.errorMessage = "";
         return prop_object;
     };
 
+    // check for the invalid field
     validateAllFields = (state_obj) => {
         return Object.keys(state_obj)
             .map(key => state_obj[key])
             .filter(objectProps => !objectProps.valid);
     };
 
+    // check the validation before onSubmit
     getValidatedState = () => {
         const existingState = {...this.state};
         const result = Object.keys(existingState)
@@ -244,6 +255,8 @@ export default class App extends Component {
         return result;
     };
 
+
+    // 
     onSubmit = e => {
         e.preventDefault();
         const validatedState = this.getValidatedState();
@@ -251,10 +264,12 @@ export default class App extends Component {
             const submitJSON = this.getSubmitJSON();
             console.log(submitJSON);
             MockService.saveField(submitJSON).then(response => console.log(response));
+            alert('Field Saved Successfully');
         }
         this.setState(validatedState);
     };
 
+    // Display the  Error if the state of field is invalid  
     getErrorValidationComponent = obj => {
         return obj.valid ? ("") : (<ErrorValidationLabel
             errorMessage={obj.errorMessage}
